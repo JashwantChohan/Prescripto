@@ -12,7 +12,7 @@ function Navbar() {
 
 
     return (
-        <div className='flex items-center justify-between text-sm py-4 mb-5 border-b border-b-gray-400   '>
+        <div className='flex items-center justify-between text-sm py-4 mb-5 border-b border-b-gray-400'>
             <img className='w-44 cursor-pointer' src={assets.logo} alt="logo" />
             <ul className='hidden md:flex items-start gap-5 font-medium no-underline'>
                 <NavLink to='/'>
@@ -42,7 +42,7 @@ function Navbar() {
                                 <div className='min-w-48 bg-stone-100 rounded flex flex-col gap p-4 shadow-lg'>
                                     <p onClick={() => navigate('/MyProfile')} className='hover:text-black p-1  cursor-pointer'>My Profile</p>
                                     <p onClick={() => navigate('/MyAppointment')} className='hover:text-black p-1 cursor-pointer'>My Appointments</p>
-                                    <p onClick={()=>setToken(false)}  className='hover:text-black p-1 cursor-pointer'>Logout</p>
+                                    <p onClick={() => setToken(false)} className='hover:text-black p-1 cursor-pointer'>Logout</p>
                                 </div>
                             </div>
                         </div>
