@@ -1,11 +1,16 @@
 @import "tailwindcss";
 
-
 @theme {
     --color-primary: #5f6FFF;
     --font-poppins: 'Poppins', sans-serif;
+    --grid-auto: repeat(auto-fill, minmax(180px, 1fr));
 }
 
-.active hr{
+
+.active hr {
     @apply block
+}
+
+::-webkit-scrollbar {
+    @apply hidden;
 }
