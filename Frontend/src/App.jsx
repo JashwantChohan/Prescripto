@@ -27,7 +27,6 @@ function App() {
         <Route path='/appointment/:docId' element={<Appointments />} />
       </Routes>
       <Footer />
-
     </div>
   )
 }
