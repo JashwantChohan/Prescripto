@@ -27,7 +27,7 @@ function Footer() {
                     <div className="">
                         <p className='text-xl font-medium mb-5'>GET IN TOUCH</p>
                         <ul className='flex flex-col gap-2 text-gray-600'>
-                            <li>+1-212-466-7890</li>
+                            <li>+92-324-2256029</li>
                             <li>jchohan@gmail.com</li>
                         </ul>
                     </div>
@@ -36,7 +36,7 @@ function Footer() {
             <div className="">
                 {/* --------- copyright text --------- */}
                 <hr className='text-gray-400' />
-                <p className='py-5 text-sm text-center'>Copyright © 2024 GreatStack - All Right Reserved.</p>
+                <p className='py-5 text-sm text-center'>Copyright © 2024 - All Right Reserved.</p>
             </div>
         </div>
     )
