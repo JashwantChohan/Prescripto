@@ -1,9 +1,10 @@
 import validator from 'validator';
 import bcrypt from 'bcrypt';
 import { v2 as cloudinary } from 'cloudinary';
+import doctorModel from '../models/doctorModel.js';
+import jwt from 'jsonwebtoken';
 
 //  api for adding doctor
-
 const addDoctor = async (req, res) => {
     try {
         const { name, email, password, speciality, degree, experience, about, fees, address } = req.body;
@@ -29,11 +30,56 @@ const addDoctor = async (req, res) => {
         const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" });
         const imageUrl = imageUpload.secure_url;
 
+        const doctorData = {
+            name,
+            email,
+            image: imageUrl,
+            password: hashedPassword,
+            speciality,
+            degree,
+            experience,
+            about,
+            fees,
+            address: JSON.parse(address),
+            date: Date.now()
+        };
+
+        const newDoctor = new doctorModel(doctorData);
+        await newDoctor.save();
+
+        res.json({ success: true, message: "Doctor added successfully" });
+
 
     } catch (error) {
-
+        console.log(error)
+        res.status(500).json({ success: false, message: error.message || "Internal Server Error" })
     }
 }
 
-export { addDoctor };
+// api for admin login
+
+const adminLogin = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        const adminEmail = process.env.ADMIN_EMAIL;
+        const adminPassword = process.env.ADMIN_PASSWORD;
+
+        if (email === adminEmail && password === adminPassword) {
+            const token = jwt.sign({ email }, process.env.JWT_SECRET_KEY, { expiresIn: '1h' });
+            res.json({ success: true, token, message: "login Successful" })
+            console.log('done')
+        } else {
+
+            return res.json({ success: false, message: "Invalid credentials" })
+        }
+    }
+    catch (error) {
+        console.log(error)
+        res.status(500).json({ success: false, message: error.message || "Internal Server Error" })
+    }
+}
+
+
+export { addDoctor, adminLogin };
 
