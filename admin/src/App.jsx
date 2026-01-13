@@ -3,12 +3,14 @@ import './index.css'
 import { ToastContainer } from 'react-toastify';
 import { AdminContext } from './context/AdminContext';
 import { useContext } from 'react';
+import Navbar from './components/Navbar';
 
 
 const App = () => {
   const { aToken } = useContext(AdminContext)
   return aToken ? (
-    <div>
+    <div classname='bg-[#F8F9FD]'>
+      <Navbar />
       <ToastContainer
         position="top-right"
         autoClose={3000}
