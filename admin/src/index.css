@@ -5,3 +5,7 @@
     --font-poppins: 'Poppins', sans-serif;
     --grid-auto: repeat(auto-fill, minmax(180px, 1fr));
 }
+
+::-webkit-scrollbar {
+    @apply hidden
+}

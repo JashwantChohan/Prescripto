@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { AdminContext } from '../context/AdminContext'
-import drPlazaLogo from '../assets/dr_plaza_logo.png';
+import { assets } from '../assets/assets.js'
 import { useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
@@ -14,7 +14,7 @@ const Navbar = () => {
   return (
     <div className="flex justify-between items-center px-4 sm:px-10 py-3 border-b border-gray-400 bg-white">
       <div className="flex items-center gap-2 text-xs">
-        <img className='w-36 sm:w-40 cursor-pointer ' src={drPlazaLogo} alt="" />
+        <img className='w-36 sm:w-40 cursor-pointer ' src={assets.drplazalogo} alt="" />
         <p className='border px-2.5 py-0.5 rounded-full border-gray-500 text-gray-600'>{aToken ? 'Admin' : 'Doctor'}</p>
       </div>
       <button onClick={logout} className='bg-primary text-white px-10 py-2 rounded-full'>Logout</button>
@@ -23,5 +23,3 @@ const Navbar = () => {
 }
 
 export default Navbar
-
-{/* <img src='../assets/dr_plaza_logo.png' alt="Logo" /> */ }
