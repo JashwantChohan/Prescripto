@@ -13,8 +13,8 @@ import AddDoctor from './pages/admin/AddDoctor'
 
 
 const App = () => {
-  const { aToken } = useContext(AdminContext)
-  return aToken ? (
+  const { atoken } = useContext(AdminContext)
+  return atoken ? (
     <div className='bg-[#F8F9FD]'>
       <Navbar />
       <div className='flex items-start'>

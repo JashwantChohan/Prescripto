@@ -13,8 +13,7 @@ const authAdmin = (req, res, next) => {
 
         const adminEmail = process.env.ADMIN_EMAIL;
         const adminPassword = process.env.ADMIN_PASSWORD;
-        console.log("admin detail", adminEmail, adminPassword)
-
+        
         if (token_decoded === adminEmail + adminPassword) {
             return res.status(401).json({ success: false, message: "Unauthorized: Invalid token" });
         }

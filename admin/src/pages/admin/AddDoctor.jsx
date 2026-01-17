@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { assets } from '../../assets/assets.js'
 import { AdminContext } from '../../context/AdminContext.jsx'
 import { toast } from 'react-toastify'
+import axios from 'axios'
 
 const AddDoctor = () => {
 
@@ -17,7 +18,7 @@ const AddDoctor = () => {
   const [address1, setaddress1] = useState('')
   const [address2, setaddress2] = useState('')
 
-  const { backendUrl, aToken } = useContext(AdminContext)
+  const { backendUrl, atoken } = useContext(AdminContext)
   const onSubmitHandler = async (e) => {
     e.preventDefault()
 
@@ -42,6 +43,23 @@ const AddDoctor = () => {
       formData.forEach((value, key) => {
         console.log(`${key} : ${value}`)
       })
+
+      const { data } = await axios.post(backendUrl + '/api/admin/add-doctor', formData, { headers: { atoken } })
+
+      if (data.success) {
+        toast.success(data.message)
+        setDocImg(false)
+        setName('')
+        setEmail('')
+        setPassword('')
+        setaddress1('')
+        setaddress2('')
+        setDegree('')
+        setAbout('')
+        setFees('')
+      } else {
+        toast.error(data.message)
+      }
 
     } catch {
 
@@ -128,7 +146,7 @@ const AddDoctor = () => {
           <p className="mt-4 mb-2">About Doctor</p>
           <textarea onChange={(e) => setAbout(e.target.value)} value={about} className='w-full px-4 pt-2 border rounded' placeholder='write about yourself' rows={5} required />
         </div>
-        <button type='submit' className='bg-primary px-10 py-3 mt-4 text-white rounded-full'>Add Doctor</button>
+        <button type='submit' className='bg-primary px-10 py-3 mt-4 text-white rounded-full cursor-pointer'>Add Doctor</button>
       </div>
     </form>
   )
