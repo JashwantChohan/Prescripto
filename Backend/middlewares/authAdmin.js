@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken';
 const authAdmin = (req, res, next) => {
 
     try {
-
         const { atoken } = req.headers;
         if (!atoken) {
             return res.status(401).json({ success: false, message: "Unauthorized: No token provided" });
@@ -11,11 +10,8 @@ const authAdmin = (req, res, next) => {
 
         const token_decoded = jwt.verify(atoken, process.env.JWT_SECRET_KEY);
 
-        const adminEmail = process.env.ADMIN_EMAIL;
-        const adminPassword = process.env.ADMIN_PASSWORD;
-        
-        if (token_decoded === adminEmail + adminPassword) {
-            return res.status(401).json({ success: false, message: "Unauthorized: Invalid token" });
+        if (token_decoded !== process.env.ADMIN_EMAIL + process.env.ADMIN_PASSWORD) {
+            return res.json({ success: false, message: "Not Authorized Login again" });
         }
 
         next();

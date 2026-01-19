@@ -44,7 +44,8 @@ const AddDoctor = () => {
         console.log(`${key} : ${value}`)
       })
 
-      const { data } = await axios.post(backendUrl + '/api/admin/add-doctor', formData, { headers: { atoken } })
+      const { data } = await axios.post(backendUrl + '/api/admin/add-doctor', formData,
+        { headers: { atoken } })
 
       if (data.success) {
         toast.success(data.message)
@@ -61,13 +62,11 @@ const AddDoctor = () => {
         toast.error(data.message)
       }
 
-    } catch {
-
+    } catch (error) {
+      toast.error(error.message)
+      console.log(error)
     }
   }
-
-
-
   return (
     <form onSubmit={onSubmitHandler} className='m-5 w-full'>
       <p className='mb-3 text-lg font-medium'>Add Doctor</p>
