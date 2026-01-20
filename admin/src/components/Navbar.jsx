@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
   const { atoken, setAtoken } = useContext(AdminContext)
-  const navigate = useNavigate
+  const navigate = useNavigate()
   const logout = () => {
     navigate('/')
     atoken && setAtoken('')
@@ -17,7 +17,7 @@ const Navbar = () => {
         <img className='w-36 sm:w-40 cursor-pointer ' src={assets.drplazalogo} alt="" />
         <p className='border px-2.5 py-0.5 rounded-full border-gray-500 text-gray-600'>{atoken ? 'Admin' : 'Doctor'}</p>
       </div>
-      <button onClick={logout} className='bg-primary text-white px-10 py-2 rounded-full'>Logout</button>
+      <button onClick={logout} className='bg-primary text-white px-10 py-2 rounded-full cursor-pointer'>Logout</button>
     </div>
   )
 }

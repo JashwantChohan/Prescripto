@@ -1,22 +1,40 @@
 import axios from 'axios';
 import { createContext, useState } from 'react';
+import { toast } from 'react-toastify'
 
 export const AdminContext = createContext();
 
 const AdminContextProvider = ({ children }) => {
-    const [atoken, setAtoken] = useState(() => localStorage.getItem('aToken') || '')
+    const [atoken, setAtoken] = useState(() => localStorage.getItem('atoken') || '')
     const [doctors, setDoctors] = useState([])
+
     const backendUrl = import.meta.env.VITE_BACKEND_URL
 
     const getAllDoctors = async () => {
-        const doctors = await axios.get(backendUrl + '/api/admin/all-doctors')
-
+        try {
+            const { data } = await axios.post(backendUrl + '/api/admin/all-doctors', {}, {
+                headers: {
+                    Authorization: `Bearer ${atoken}`
+                }
+            })
+            // const { data } = await axios.post(backendUrl + '/api/admin/all-doctors', {}, { headers: atoken })
+            if (data.success) {
+                setDoctors(data.doctors)
+                console.log(data.doctors)
+            } else {
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.response?.data?.message || error.message)
+        }
     }
 
     const value = {
         atoken,
         setAtoken,
-        backendUrl
+        backendUrl,
+        doctors,
+        getAllDoctors
     }
 
     return (
