@@ -8,13 +8,32 @@ const DoctorsList = () => {
     useEffect(() => {
         if (atoken) {
             getAllDoctors()
-            
+
         }
     }, [atoken])
 
     return (
         <div>
-            doctor list
+            <h1>All Doctors</h1>
+            <div className="">
+                {
+                    doctors.map((item, index) => {
+                        return (
+                            <div className="" key={index}>
+                                <img src={item.image} alt="" />
+                                <div className="">
+                                    <p>{item.name}</p>
+                                    <p>{item.speciality}</p>
+                                    <div className="">
+                                        <input type="checkbox" checked={item.available} />
+                                        <p>Available</p>
+                                    </div>
+                                </div>
+                            </div>
+                        )
+                    })
+                }
+            </div>
         </div>
     )
 }
