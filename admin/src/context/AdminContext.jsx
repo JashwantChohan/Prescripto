@@ -17,10 +17,27 @@ const AdminContextProvider = ({ children }) => {
                     Authorization: `Bearer ${atoken}`
                 }
             })
-            // const { data } = await axios.post(backendUrl + '/api/admin/all-doctors', {}, { headers: atoken })
             if (data.success) {
                 setDoctors(data.doctors)
                 console.log(data.doctors)
+            } else {
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.response?.data?.message || error.message)
+        }
+    }
+
+    const changeAvailablity = async (docId) => {
+        try {
+            const { data } = await axios.post(backendUrl + 'api/admin/change-availablity', { docId }, {
+                headers: {
+                    Authorization: `Bearer ${atoken}`
+                }
+            })
+            if (data.success) {
+                toast.success(data.message)
+                getAllDoctors()
             } else {
                 toast.error(data.message)
             }
@@ -34,7 +51,8 @@ const AdminContextProvider = ({ children }) => {
         setAtoken,
         backendUrl,
         doctors,
-        getAllDoctors
+        getAllDoctors,
+        changeAvailablity,
     }
 
     return (
