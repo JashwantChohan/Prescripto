@@ -1,7 +1,7 @@
 import doctorModel from "../models/doctorModel.js"
 
 
-const changeAvailablity = async () => {
+const changeAvailablity = async (req, res) => {
     try {
         const { docId } = req.body
         const docData = await doctorModel.findById(docId)

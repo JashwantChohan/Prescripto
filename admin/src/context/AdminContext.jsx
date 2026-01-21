@@ -9,7 +9,7 @@ const AdminContextProvider = ({ children }) => {
     const [doctors, setDoctors] = useState([])
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL
-
+    
     const getAllDoctors = async () => {
         try {
             const { data } = await axios.post(backendUrl + '/api/admin/all-doctors', {}, {
@@ -27,10 +27,10 @@ const AdminContextProvider = ({ children }) => {
             toast.error(error.response?.data?.message || error.message)
         }
     }
-
+    
     const changeAvailablity = async (docId) => {
         try {
-            const { data } = await axios.post(backendUrl + 'api/admin/change-availablity', { docId }, {
+            const { data } = await axios.post(backendUrl + '/api/admin/change-availablity', { docId }, {
                 headers: {
                     Authorization: `Bearer ${atoken}`
                 }
