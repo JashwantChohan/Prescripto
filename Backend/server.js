@@ -4,6 +4,7 @@ import connectDB from './config/mongodb.js';
 import dotenv from "dotenv";
 import connectCloudinary from './config/cloudinary.js';
 import adminRouter from './routes/adminRoute.js';
+import doctorRouter from './routes/doctorRoute.js';
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/api/admin', adminRouter);
+app.use('/api/doctor', doctorRouter);
 
 app.get('/', (req, res) => {
     res.send('Api working fine');
