@@ -15,7 +15,7 @@ const registerUser = async (req, res) => {
             return res.json({ success: false, message: "Enter a valid Email" })
         }
         if (password.length < 8) {
-           return res.json({ success: false, message: "Enter strong password" })
+            return res.json({ success: false, message: "Enter strong password" })
         }
 
         const salt = await bcrypt.genSalt(10)
@@ -39,4 +39,28 @@ const registerUser = async (req, res) => {
     }
 }
 
-export { registerUser }
+const loginUser = async (req, res) => {
+    try {
+        const { email, password } = req.body
+        const user = await userModel.findOne({ email })
+
+        if (!user) {
+            res.json({ success: false, message: 'user does not exist' })
+        }
+
+        const isMatch = bcrypt.compare(password, user.password)
+
+        if (isMatch) {
+            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY)
+            red.json({ succcess: true, token })
+        } else {
+            res.json({ success: false, message: "Invalid credentials" })
+        }
+
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
+
+export { registerUser, loginUser }
