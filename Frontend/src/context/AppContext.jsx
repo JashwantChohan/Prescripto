@@ -8,12 +8,10 @@ export const AppContextProvider = (props) => {
 
     const currencySymbol = '$';
     const BackendUrl = import.meta.env.VITE_BACKEND_URL
-    const [doctors, setDoctors] = useState([])
 
-    const value = {
-        doctors,
-        currencySymbol
-    }
+    const [doctors, setDoctors] = useState([])
+    const [token, setToken] = useState()
+
 
     const getDoctorsData = async () => {
         try {
@@ -30,11 +28,17 @@ export const AppContextProvider = (props) => {
         }
     }
 
+    const value = {
+        doctors,
+        currencySymbol,
+        token,
+        setToken,
+        BackendUrl,
+    }
+
     useEffect(() => {
         getDoctorsData()
     }, [])
-
-
 
     return (
         <AppContext.Provider value={value}>
@@ -42,5 +46,3 @@ export const AppContextProvider = (props) => {
         </AppContext.Provider>
     )
 }
-
-// export {AppContext, AppContextProvider};
