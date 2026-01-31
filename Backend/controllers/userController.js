@@ -42,8 +42,7 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
     try {
         const { email, password } = req.body
-        console.log(email, password ,'login data');
-        
+
         if (!email || !password) {
             return res.json({ success: false, message: "Missing Credential" })
         }
@@ -56,7 +55,7 @@ const loginUser = async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password)
 
         if (isMatch) {
-            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY)
+            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' })
             res.json({ success: true, token })
         } else {
             res.json({ success: false, message: "Invalid credentials" })
@@ -73,7 +72,7 @@ const loginUser = async (req, res) => {
 const getProfile = async (req, res) => {
 
     try {
-        const { userId } = req.body;
+        const userId = req.user.id;
         const userData = await userModel.findById(userId).select('-password');
         res.json({ success: true, userData });
     } catch (error) {
@@ -82,5 +81,7 @@ const getProfile = async (req, res) => {
 
     }
 }
+
+
 
 export { registerUser, loginUser, getProfile }
