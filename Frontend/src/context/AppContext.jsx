@@ -14,7 +14,7 @@ export const AppContextProvider = (props) => {
     const [userData, setUserData] = useState(false)
 
 
-    const getDoctorsData = async () => {
+    const getDoctorsData = async () => { 
         try {
             const { data } = await axios.get(BackendUrl + '/api/doctor/list')
             if (data.success) {
