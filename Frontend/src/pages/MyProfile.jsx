@@ -12,6 +12,7 @@ function Profile() {
   const updateUserProfileData = async () => {
     try {
       const formData = new FormData();
+
       formData.append('name', userData.name);
       formData.append('phone', userData.phone);
       formData.append('address', JSON.stringify(userData.address));
@@ -21,6 +22,7 @@ function Profile() {
       image && formData.append('image', image);
 
       const { data } = await axios.post(BackendUrl + '/api/user/update-profile', formData, { headers: { Authorization: `Bearer ${token}` } });
+
       if (data.success) {
         toast.success(data.message);
         await loadUserProfileData();
@@ -43,7 +45,15 @@ function Profile() {
           ? <label htmlFor='image'>
             <div className='inline-block relative cursor-pointer'>
               <img className='w-36 rounded opacity-75' src={image ? URL.createObjectURL(image) : userData.image} alt="" />
-              <img className='w-20 absolute top-10 right-8' src={image ? "" : assets.upload_icon} alt="" />
+
+              {!image && (
+                <img
+                  className='w-20 absolute top-10 right-8'
+                  src={assets.upload_icon}
+                  alt=""
+                />
+              )}
+
             </div>
             <input onChange={(e) => setImage(e.target.files[0])} type="file" id='image' hidden />
           </label>
@@ -66,7 +76,7 @@ function Profile() {
           <p className='font-medium'>Phone:</p>
           {
             isEdit ?
-              <input className='bg-gray-100 max-w-52'  value={userData.phone} onChange={e => setUserData(prev => ({ ...prev, phone: e.target.value }))} />
+              <input className='bg-gray-100 max-w-52' value={userData.phone} onChange={e => setUserData(prev => ({ ...prev, phone: e.target.value }))} />
               : <p className='text-blue-400'>{userData.phone}</p>
           }
           <p className='font-medium'>Address</p>
