@@ -16,18 +16,7 @@ const authUser = async (req, res, next) => {
         const token_decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
 
-        // const { token } = req.headers
-
-        // if (!token) {
-        //     return res.json({
-        //         success: false,
-        //         message: 'Not authorized Login required'
-        //     });
-        // }
-        // const token_decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-        // console.log(token_decoded, 'token decoded')
-        // req.body.userId = token_decoded.id;
-
+        
         req.user = { id: token_decoded.id };
         next();
 
@@ -35,7 +24,22 @@ const authUser = async (req, res, next) => {
         console.log(error)
         res.json({ success: false, message: error.message });
     }
-
+    
 }
 
 export default authUser;
+
+
+
+
+    // const { token } = req.headers
+
+    // if (!token) {
+    //     return res.json({
+    //         success: false,
+    //         message: 'Not authorized Login required'
+    //     });
+    // }
+    // const token_decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    // console.log(token_decoded, 'token decoded')
+    // req.body.userId = token_decoded.id;
