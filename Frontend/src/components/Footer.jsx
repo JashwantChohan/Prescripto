@@ -36,7 +36,7 @@ function Footer() {
             <div className="">
                 {/* --------- copyright text --------- */}
                 <hr className='text-gray-400' />
-                <p className='py-5 text-sm text-center'>Copyright © 2024 - All Right Reserved.</p>
+                <p className='py-5 text-sm text-center'>Copyright © 2026 - All Right Reserved.</p>
             </div>
         </div>
     )

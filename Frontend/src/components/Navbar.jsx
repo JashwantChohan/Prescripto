@@ -6,7 +6,7 @@ import { AppContext } from '../context/AppContext';
 
 function Navbar() {
     const navigate = useNavigate()
-    const { token, setToken } = useContext(AppContext)
+    const { token, setToken, userData } = useContext(AppContext)
 
     const [showMenu, setShowMenu] = useState(false)
     const [showDropdown, setShowDropdown] = useState(false)
@@ -31,12 +31,12 @@ function Navbar() {
 
             <div className='flex items-center gap-4'>
                 {
-                    token ? (
+                    token && userData ? (
                         <div className='flex items-center relative'>
                             <img
                                 onClick={() => setShowDropdown(!showDropdown)}
                                 className='w-8 mx-1 rounded-full cursor-pointer'
-                                src={assets.profile_pic}
+                                src={userData.image}
                                 alt="profile"
                             />
                             <img

@@ -108,4 +108,19 @@ const updateProfile = async (req, res) => {
     }
 }
 
+
+const bookAppointment = async (req, res) => {
+    try {
+        const docId = req.user.id;
+        const { doctorId, slotDate, slotTime } = req.body;
+
+        const docData = await doctorModel.findById(docId).select('-password');
+
+
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message });
+    }
+}
+
 export { registerUser, loginUser, getProfile, updateProfile }
