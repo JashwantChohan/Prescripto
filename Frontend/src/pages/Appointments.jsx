@@ -86,7 +86,7 @@ function Appointments() {
 
       const slotDate = day + '-' + month + '-' + year;
 
-      const { data } = await axios.post(BackendUrl + '/api/user/book-appointment', { docId, slotDate, slotTime }, { headers: { Authorization: `Bearer ${token}` } });
+      const { data } = await axios.post(BackendUrl + '/api/user/book-appointment', { docId, slotDate, slotTime, amount: docInfo.fees }, { headers: { Authorization: `Bearer ${token}` } });
 
       if (data.success) {
         toast.success(data.message);

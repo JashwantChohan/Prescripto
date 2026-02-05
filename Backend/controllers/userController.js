@@ -114,6 +114,7 @@ const bookAppointment = async (req, res) => {
     try {
         const userId = req.user.id;
         const { docId, slotDate, slotTime } = req.body;
+        console.log(req.body);
 
         const docData = await doctorModel.findById(docId).select('-password');
 
@@ -144,7 +145,7 @@ const bookAppointment = async (req, res) => {
             slotTime,
             userData,
             docData,
-            amount: docData.fee,
+            amount: docData.fees,
             date: Date.now()
         };
 
