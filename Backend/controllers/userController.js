@@ -3,6 +3,8 @@ import bcrypt from 'bcrypt'
 import userModel from '../models/userModel.js'
 import jwt from 'jsonwebtoken'
 import { v2 as cloudinary } from "cloudinary";
+import doctorModel from '../models/doctorModel.js';
+import appointmentModel from '../models/appointmentModel.js';
 
 const registerUser = async (req, res) => {
     try {
@@ -108,7 +110,6 @@ const updateProfile = async (req, res) => {
     }
 }
 
-
 const bookAppointment = async (req, res) => {
     try {
         const userId = req.user.id;
@@ -116,7 +117,7 @@ const bookAppointment = async (req, res) => {
 
         const docData = await doctorModel.findById(docId).select('-password');
 
-        if (!docData.available) {
+        if (docData.available) {
             return res.json({ success: false, message: "Doctor is not available" });
         }
 

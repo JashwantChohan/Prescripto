@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { isMongoId } from 'validator';
 
 const appointmentSchema = new mongoose.Schema({
     userId: { type: String, required: true },
