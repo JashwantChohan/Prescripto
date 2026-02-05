@@ -114,11 +114,10 @@ const bookAppointment = async (req, res) => {
     try {
         const userId = req.user.id;
         const { docId, slotDate, slotTime } = req.body;
-        console.log(req.body);
 
         const docData = await doctorModel.findById(docId).select('-password');
 
-        if (docData.available) {
+        if (!docData.available) {
             return res.json({ success: false, message: "Doctor is not available" });
         }
 
@@ -148,6 +147,10 @@ const bookAppointment = async (req, res) => {
             amount: docData.fees,
             date: Date.now()
         };
+
+        if (!slotDate || !slotTime) {
+            return res.json({ success: false, message: !slotDate ? "Select Date" : "Select Time Slot" });
+        }
 
         const newAppointment = new appointmentModel(appointmentData);
         await newAppointment.save();

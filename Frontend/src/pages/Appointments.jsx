@@ -56,13 +56,25 @@ function Appointments() {
       while (currentDate < endTime) {
         let formattedTime = currentDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-        // adding time slots to array
-        timeSlots.push(
-          {
-            datetime: new Date(currentDate),
-            time: formattedTime
-          }
-        );
+        const day = currentDate.getDate();
+        const month = currentDate.getMonth() + 1;
+        const year = currentDate.getFullYear();
+
+        const slotDate = day + '-' + month + '-' + year;
+        const slotTime = formattedTime;
+
+        // checking if slot is booked
+        const isSLotAvailable = docInfo.slots_booked[slotDate] && docInfo.slots_booked[slotDate].includes(slotTime) ? false : true;
+
+        if (isSLotAvailable) {
+          // adding time slots to array
+          timeSlots.push(
+            {
+              datetime: new Date(currentDate),
+              time: formattedTime
+            }
+          );
+        }
 
         //  increment current time by 30 minutes
         currentDate.setMinutes(currentDate.getMinutes() + 30);
@@ -86,14 +98,19 @@ function Appointments() {
 
       const slotDate = day + '-' + month + '-' + year;
 
+      if (!slotDate || !slotTime) {
+        toast.error(!slotDate ? "Select Date" : "Select Time Slot", { autoClose: 2000 });
+        return;
+      }
+
       const { data } = await axios.post(BackendUrl + '/api/user/book-appointment', { docId, slotDate, slotTime, amount: docInfo.fees }, { headers: { Authorization: `Bearer ${token}` } });
 
       if (data.success) {
         toast.success(data.message);
         getDoctorsData();
-        navigate('/myAppointments');
+        navigate('/my-appointment');
       } else {
-        toast.error(data.message);
+        toast.error(data.message,);
         console.log(data.message);
       }
 
