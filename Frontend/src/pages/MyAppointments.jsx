@@ -9,7 +9,7 @@ function MyAppointments() {
 
   const [appointments, setAppointments] = useState([]);
 
-  const getAppointments = async () => {
+  const getUserAppointments = async () => {
     try {
       const { data } = await axios.get(BackendUrl + '/api/user/appointments', { headers: { Authorization: `Bearer ${token}` } });
 
@@ -24,9 +24,25 @@ function MyAppointments() {
     }
   }
 
+  const cancelAppointment = async (appointmentId) => {
+    try {
+      const { data } = await axios.delete(BackendUrl + `/api/user/appointments/${appointmentId}`, { headers: { Authorization: `Bearer ${token}` } });
+
+      if (data.success) {
+        toast.success(data.message);
+        getAppointments();
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      console.error(error.message);
+      toast.error(error.message);
+    }
+  }
+
   useEffect(() => {
     if (token) {
-      getAppointments();
+      getUserAppointments();
     }
   }, [token]);
 
@@ -34,7 +50,7 @@ function MyAppointments() {
     <div>
       <p className='pb-3 mt-12 font-medium text-zinc-700 border-b border-zinc-400'>My Appointments</p>
       <div>
-        {appointments?.map((item, index) => (
+        {appointments.map((item, index) => (
           <div className='gird grid-cols-[1fr_2fr] gap-4 sm:flex sm:gap-6 py-2 border-b border-zinc-400' key={index}>
             <div>
               <img className='w-32 bg-indigo-50 ' src={item.docData.image} alt="" />
@@ -51,15 +67,13 @@ function MyAppointments() {
             </div>
             <div className='flex flex-col gap-2 justify-end'>
               <button className='text-sm text-stone-500 text-center sm:min-w-48 py-2 mt-3 border rounded hover:bg-primary hover:text-white transiton-all duration-300'>Pay Online</button>
-              <button className='text-sm text-stone-500 text-center sm:min-w-48 py-2  border rounded hover:bg-red-600 hover:text-white transiton-all duration-300'>Cancel Appointment </button>
+              <button onClick={() => cancelAppointment(appointments._id)} className='text-sm text-stone-500 text-center sm:min-w-48 py-2  border rounded hover:bg-red-600 hover:text-white transiton-all duration-300'>Cancel Appointment </button>
             </div>
 
           </div>
         ))
         }
-
       </div>
-
     </div>
   )
 }

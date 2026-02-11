@@ -175,4 +175,49 @@ const listAppointment = async (req, res) => {
     }
 }
 
-export { registerUser, loginUser, getProfile, updateProfile, bookAppointment, listAppointment }
+const cancelAppointment = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const appointmentId = req.params.id;
+
+        const appointmentData = await appointmentModel.findById(appointmentId);
+        if (!appointmentData) {
+            return res.status(404).json({ success: false, message: "Appointment not found" });
+        }
+
+        if (appointmentData.userId.toString() !== userId) {
+            return res.status(403).json({ success: false, message: "Not authorized" });
+        }
+
+        const docData = await doctorModel.findById(appointmentData.docId);
+        if (!docData) {
+            return res.status(404).json({ success: false, message: "Doctor not found" });
+        }
+
+        let slots_booked = { ...docData.slots_booked };
+        const { slotDate, slotTime } = appointmentData;
+
+        if (slots_booked[slotDate]) {
+            slots_booked[slotDate] =
+                slots_booked[slotDate].filter(slot => slot !== slotTime);
+        }
+
+        await doctorModel.findByIdAndUpdate(appointmentData.docId, {
+            slots_booked
+        });
+
+        await appointmentModel.findByIdAndDelete(appointmentId);
+
+        res.status(200).json({
+            success: true,
+            message: "Appointment cancelled successfully"
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+
+export { registerUser, loginUser, getProfile, updateProfile, bookAppointment, listAppointment, cancelAppointment }
